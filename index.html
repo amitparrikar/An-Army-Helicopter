@@ -5,8 +5,10 @@
     <title></title>
   </head>
   <body>
+      <h2>Open browser console and check result</h2>
 
     <script type="text/javascript">
+      //Main function to be executed
       var main = function (input1) {
         var newInput = input1.map(function(val, indx){
           return val.replace(/#/gim, '').replace(/x/gim, 0).replace(/o/gim, 1);
