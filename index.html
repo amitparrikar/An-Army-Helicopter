@@ -5,10 +5,10 @@
     <title></title>
   </head>
   <body>
-      <h2>Open browser console and check result</h2>
-
+    <h2>Open browser console and check result</h2>
+    
     <script type="text/javascript">
-      //Main function to be executed
+      //Starting Main function
       var main = function (input1) {
         var newInput = input1.map(function(val, indx){
           return val.replace(/#/gim, '').replace(/x/gim, 0).replace(/o/gim, 1);
@@ -18,8 +18,8 @@
         var curExp = 0;
         var curGot = 0;
         var finalAnswer = -1;
-
-        for(var i=0; i< newInput.length; i++){
+        var newInputLen = newInput.length;
+        for(var i=0; i< newInputLen; i++){
           var curCount = checkOnes(newInput[i]);
           if(curGot <= curCount){
             curGot = curCount;
@@ -44,20 +44,16 @@
       //GET THE NEXT LEVEL ARRAY
       function GetCurrentGOT(inputArray){
         var tempInputArray = [];
+        var curGot = 0;
         var inputArrayLen = inputArray.length;
         for(var i=0; i< inputArrayLen; i++){
-          var j = i+1;
-          if(inputArray[j]){
-            tempInputArray.push(AND(inputArray[i], inputArray[j]));
-          }
-        }
+          if(inputArray[i+1]){
+            tempInputArray.push(AND(inputArray[i], inputArray[i+1]));
+            var curCount = checkOnes(tempInputArray[i]);
 
-        var curGot = 0;
-        for(var i=0; i< tempInputArray.length; i++){
-          var curCount = checkOnes(tempInputArray[i]);
-
-          if(curGot <= curCount){
-            curGot = curCount;
+            if(curGot <= curCount){
+              curGot = curCount;
+            }
           }
         }
 
@@ -95,16 +91,17 @@
         return msb + result;
       }
 
-
-
-      //input
+      //Sample Input
       var arr = [ 'x#o#o#o#x#o',
                   'x#o#o#o#x#x',
                   'x#o#o#o#x#x',
                   'x#o#x#o#o#x',
-                  'x#o#x#o#o#x' ]
+                  'x#o#x#o#o#x' ];
+
       main(arr);
     </script>
+
+    
 
   </body>
 </html>
