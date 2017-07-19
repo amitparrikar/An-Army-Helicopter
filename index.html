@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+
+    <script type="text/javascript">
+      var main = function (input1) {
+        var newInput = input1.map(function(val, indx){
+          return val.replace(/#/gim, '').replace(/x/gim, 0).replace(/o/gim, 1);
+        });
+
+        //LOGIC STARTS HERE
+        var curExp = 0;
+        var curGot = 0;
+        var finalAnswer = -1;
+
+        for(var i=0; i< newInput.length; i++){
+          var curCount = checkOnes(newInput[i]);
+          if(curGot <= curCount){
+            curGot = curCount;
+          }
+        }
+
+        while(curGot >= curExp){
+          curExp +=1;
+          obj = GetCurrentGOT(newInput);
+          curGot = obj.curGot;
+          newInput = obj.newInput;
+
+          if(curGot >= curExp){
+            finalAnswer = curExp + 1;
+          }
+        }
+
+        return finalAnswer;
+
+      }
+
+      //GET THE NEXT LEVEL ARRAY
+      function GetCurrentGOT(inputArray){
+        var tempInputArray = [];
+        var inputArrayLen = inputArray.length;
+        for(var i=0; i< inputArrayLen; i++){
+          var j = i+1;
+          if(inputArray[j]){
+            tempInputArray.push(AND(inputArray[i], inputArray[j]));
+          }
+        }
+
+        var curGot = 0;
+        for(var i=0; i< tempInputArray.length; i++){
+          var curCount = checkOnes(tempInputArray[i]);
+
+          if(curGot <= curCount){
+            curGot = curCount;
+          }
+        }
+
+        return {
+          curGot: curGot,
+          newInput: tempInputArray
+        };
+      }
+
+      //CHECK MAX ONES PATTERN
+      function checkOnes(inputStr) {
+        var maxCount = 0;
+        inputStr = inputStr.split(0);
+        var inputStrLen = inputStr.length;
+
+        for(var i=0; i < inputStrLen; i++){
+          var curCount = inputStr[i].length;
+          if(curCount && maxCount <= curCount){
+            maxCount = curCount;
+          }
+        }
+
+        return maxCount;
+      }
+
+      //AND OPERATION
+      function AND(num1, num2) {
+        var length1 = num1.length;
+        var result = (parseInt(num1, 2) & parseInt(num2, 2)).toString(2);
+        var length2 = result.length;
+
+        var msb = '';
+        for(var i=0; i<(length1-length2); i++)msb+='0';
+
+        return msb + result;
+      }
+
+
+
+      //input
+      var arr = [ 'x#o#o#o#x#o',
+                  'x#o#o#o#x#x',
+                  'x#o#o#o#x#x',
+                  'x#o#x#o#o#x',
+                  'x#o#x#o#o#x' ]
+      main(arr);
+    </script>
+
+  </body>
+</html>
